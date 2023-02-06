@@ -1,25 +1,13 @@
-function showTime(event) {
-  if (event.target.value.length > 0) {
-    let currentTime = moment()
-      .tz(event.target.value)
-      .format("dddd, MMMM D, YYYY h:mm A");
-
-    alert(`It is ${currentTime} in ${event.target.value}`);
-  }
-}
-
 function updateTime() {
-  // Barcelona
-  let barcelonaElement = document.querySelector("#barcelona");
-  if (barcelonaElement) {
-    let barcelonaDateElement = barcelonaElement.querySelector(".date");
-    let barcelonaTimeElement = barcelonaElement.querySelector(".time");
-    let barcelonaTime = moment().tz("Europe/Barcelona");
+  // ROME
+  let romeElement = document.querySelector("#rome");
+  if (romeElement) {
+    let romeDateElement = romeElement.querySelector(".date");
+    let romeTimeElement = romeElement.querySelector(".time");
+    let romeTime = moment().tz("Europe/Rome");
 
-    barcelonaDateElement.innerHTML = barcelonaTime.format("MMMM	Do YYYY");
-    barcelonaTimeElement.innerHTML = barcelonaTime.format(
-      "h:mm:ss [<small>]A[</small>]"
-    );
+    romeDateElement.innerHTML = romeTime.format("MMMM	Do YYYY");
+    romeTimeElement.innerHTML = romeTime.format("h:mm:ss [<small>]A[</small>]");
   }
 
   // New York
@@ -35,8 +23,25 @@ function updateTime() {
     );
   }
 }
+function updateCity(event) {
+  let cityTimeZone = event.target.value;
+  let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+  let cityTime = moment().tz(cityTimeZone);
+  let citiesElement = document.querySelector("#cities");
+  citiesElement.innerHTML = `
+  <div class="city">
+    <div>
+      <h2>${cityName}</h2>
+      <div class="date">${cityTime.format("MMMM	Do YYYY")}</div>
+    </div>
+    <div class="time">${cityTime.format("h:mm:ss")} <small>${cityTime.format(
+    "A"
+  )}</small></div>
+  </div>
+  `;
+}
 updateTime();
 setInterval(updateTime, 1000);
 
-let selectCity = document.querySelector("#cities");
-selectCity.addEventListener("change", showTime);
+let selectCity = document.querySelector("#search-city");
+selectCity.addEventListener("change", updateCity);
