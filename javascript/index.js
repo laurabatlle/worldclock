@@ -7,6 +7,5 @@ function showTime(event) {
     alert(`It is ${currentTime} in ${event.target.value}`);
   }
 }
-
 let selectCity = document.querySelector("#cities");
 selectCity.addEventListener("change", showTime);
